@@ -9,7 +9,7 @@ if(isset($_POST["btn-submit"])) {
     $user = new User($_POST["user"], $_POST["password"]);
     
     if($user->authenticate()) {
-        header("Location: private.php?page=home");
+        header("Location: private.php?page=drivers");
     }
 }
 

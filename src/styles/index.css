@@ -1,6 +1,6 @@
 #container {
     display: grid;
-    grid-template-rows: 100px 1fr 100px;
+    grid-template-rows: 160px 1fr 100px;
     grid-template-columns: 100%;
     grid-template-areas: 
     "header"
@@ -10,12 +10,133 @@
 
 footer {
     grid-area: footer;
+    background-color: #2E2E2E;
 }
 
 header {
     grid-area: header;
+    background-color: #2E2E2E;
+
+    border-bottom: 3px solid #D72638;
+
+    display: grid;
+    grid-template-columns: 1fr 150px;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+    "h-text h-img"
+    "h-buttons h-img";
 }
 
 main {
     grid-area: main;
+
+    background-color: #2E2E2E;
+}
+
+header > h1 {
+    grid-area: h-text;
+
+    font-size: 45px;
+
+    padding: 10px 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons {
+    grid-area: h-buttons;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+/* PROFILE IMAGE */
+
+.profile-img {
+    grid-area: h-img;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-img > figure {
+    width: 100px;
+    height: 100px;
+
+    position: relative;
+}
+
+.profile-img > figure > img {
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+    
+    z-index: 1;
+}
+
+.profile-img > figure::before {
+    content: "";
+    height: 92%;
+    width: 92%;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    background-color: #D72638;
+    border-radius: 50%;
+
+    box-shadow: inset 0 0 10px #2E2E2E;
+    z-index: 0;
+}
+
+/* LINK STYLE (A TAG) */
+
+.buttons > a {
+    text-decoration: none;
+    background-color: #D72638;
+
+    padding: 10px 7px;
+    margin: 0 10px;
+
+    border: 1px solid #f2f2f2;
+    border-radius: 6px;
+
+    position: relative;
+}
+
+.buttons > a:active {
+    background-color: #f2f2f2;
+
+    color: #D72638;
+}
+
+.buttons > a:hover {
+    filter: brightness(1.1);
+}
+
+/* STATE CLASSES */
+
+.visit::before {
+    content: "";
+
+    width: 100%;
+    height: 3px;
+
+    background-color: #D72638;
+
+    position: absolute;
+
+    left: 50%;
+    top: 120%;
+
+    transform: translate(-50%, -50%);
 }
