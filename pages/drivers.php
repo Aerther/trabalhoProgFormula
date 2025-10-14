@@ -2,16 +2,48 @@
 
 use App\Classes\Driver;
 
-$drivers = Driver::findAllDrivers();
+$nameParam = isset($_GET["driverName"]) ? $_GET["driverName"] : "";
+
+$drivers = Driver::findAllDrivers($nameParam);
 
 ?>
 
-<div>
-    <?php
+<div id="home-drivers">
+    <div class="drivers-get">
+        <a href="">Create Driver</a>
+    </div>
 
-    foreach($drivers as $driver) {
-        echo "<h1>Nome: {$driver->getDriverName()}, Level: {$driver->getDriverLevel()}, Número: {$driver->getDriverNumber()} Cor: {$driver->getDriverColor()}</h1>";
-    }
+    <div class="drivers">
+        <div class="driver">
+            <h1>Nome</h1>
+            <p>Level</p>
+            <p>Número</p>
+            <p>Cor</p>
+            <p>Country</p>
+        </div>
 
-    ?>
+        <div class="driver">
+            <h1>Nome</h1>
+            <p>Level</p>
+            <p>Número</p>
+            <p>Cor</p>
+            <p>Country</p>
+        </div>
+
+        <div class="driver">
+            <h1>Nome</h1>
+            <p>Level</p>
+            <p>Número</p>
+            <p>Cor</p>
+            <p>Country</p>
+        </div>
+
+        <div class="driver">
+            <h1>Nome</h1>
+            <p>Level</p>
+            <p>Número</p>
+            <p>Cor</p>
+            <p>Country</p>
+        </div>
+    </div>
 </div>

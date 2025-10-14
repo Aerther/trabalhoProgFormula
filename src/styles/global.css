@@ -1,0 +1,134 @@
+body {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #2E2E2E;
+}
+
+#container {
+    width: 400px;
+    height: 400px;
+
+    background-color: #D72638;
+    border-radius: 15px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+}
+
+#container::before {
+    content: "";
+
+    width: 103%;
+    height: 103%;
+
+    background-color: #f2f2f2;
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    z-index: -1;
+
+    border-radius: calc((15px * 103)/100);
+
+    box-shadow: 0 0 10px #2E2E2E;
+}
+
+form {
+    width: 80%;
+    height: 90%;
+
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: repeat(4, 1fr);
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    font-size: 24px;
+}
+
+input {
+    color: #2E2E2E;
+
+    font-size: 20px;
+}
+
+input:not(.send-btn) {
+    width: 65%;
+    height: 28px;
+
+    padding-left: 5px;
+
+    border-radius: 5px;
+
+    border: 1px solid #2E2E2E;
+
+    font-family: "Lato", sans-serif;
+    font-weight: 100;
+}
+
+input:not(.send-btn):focus {
+    outline: none;
+    border: 2px solid #2E2E2E;
+}
+
+.send-btn {
+    width: 40%;
+    height: 40px;
+
+    border: 1px solid #2E2E2E;
+    border-radius: 5px;
+}
+
+.links {
+    align-items: center;
+
+    row-gap: 10px;
+}
+
+a {
+    font-size: 16px;
+
+    text-decoration: none;
+
+}
+
+a:hover {
+    color: #D72638;
+
+    text-shadow: 
+    -1px -1px 0 #f2f2f2, 
+    1px -1px 0 #f2f2f2, 
+    -1px  1px 0 #f2f2f2, 
+    1px  1px 0 #f2f2f2;
+}
+
+.send-btn:active {
+    background-color: #2E2E2E;
+
+    color: #f2f2f2;
+}
+
+.send-btn:hover {
+    filter: brightness(1.3);
+}
+
+h2 {
+    font-size: 46px;
+}

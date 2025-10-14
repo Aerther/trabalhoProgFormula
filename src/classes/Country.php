@@ -12,34 +12,18 @@ class Country {
     public function __construct(string $countryName) {
         $this->countryName = $countryName;
     }
-    
-    public static function findDriver(int $idCountry) : Driver {
+
+    public function saveCountry() : void {
         $connection = new MySql();
 
-        session_start();
+        $types = "s";
+        $params = [$this->countryName];
+        $sql = "INSERT INTO country (name) VALUES (?)";
 
-        $types = "ii";
-        $params = [$_SESSION["idUser"], $idDriver];
-        $sql = "SELECT FROM driver d WHERE d.idUser = ? AND d.idDriver = ?";
-
-        $result = $connection->search($sql, $types, $params);
-
-        // Have to change it here in the future, maybe
-        $driver = new Driver($result["fullName"], $result["number"], $result["level"], $result["color"]);
-        $driver->setIdDriver($idDriver);
-
-        return $driver;
+        $connection->execute($sql, $types, $params);
     }
 
-    public function updateDriver() : void {
-        // Add later
-    }
-
-    public function saveDriver() : void {
-        // Add later
-    }
-
-    public function setIdDriver(int $idCountry) : void {
+    public function setIdCountry(int $idCountry) : void {
         $this->idCountry = $idCountry;
     }
 

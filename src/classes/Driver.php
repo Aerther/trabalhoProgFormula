@@ -37,22 +37,21 @@ class Driver {
         return $driver;
     }
 
-    public static function findAllDrivers() : array {
+    public static function findAllDrivers(string $driverName) : array {
         $connection = new MySql();
 
         $drivers = [];
 
-        $types = "i";
-        $params = [$_SESSION["idUser"]];
-        $sql = "SELECT * FROM driver d WHERE d.idUser = ?";
+        $types = "is";
+        $params = [$_SESSION["idUser"], "%{$driverName}%"];
+        $sql = "SELECT * FROM driver d WHERE d.idUser = ? AND d.fullName LIKE ?";
 
         $results = $connection->search($sql, $types, $params);
 
         foreach($results as $result) {
             $driver = new Driver($result['fullName'], $result["number"], $result["level"], $result["color"]);
 
-            $driver->setId($result['idDriver']);
-            $driver->setIdUsuario($resultado['idUsuario']);
+            $driver->setIdDriver($result['idDriver']);
 
             $drivers[] = $driver;
         }
