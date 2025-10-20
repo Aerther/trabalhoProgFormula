@@ -20,7 +20,7 @@ class User {
         // Add later
     }
 
-    public function saveUser() : void {
+    public function createUser() : void {
         $connection = new MySql();
 
         $this->password = password_hash($this->password, PASSWORD_BCRYPT);
@@ -54,6 +54,18 @@ class User {
         $this->email = $user["email"];
 
         return true;
+    }
+
+    public function userExists() : bool {
+        $connection = new MySQL();
+
+        $types = "s";
+        $params = [$this->user];
+        $sql = "SELECT 1 FROM user u WHERE u.username = ?";
+
+        $result = $connection->search($sql, $types, $params);
+
+        return !empty($result);
     }
 
     // Getters e Setters

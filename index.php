@@ -4,6 +4,8 @@ require_once __DIR__."/vendor/autoload.php";
 
 use App\Classes\User;
 
+$errorText = "";
+
 if(isset($_POST["btn-submit"])) {
     
     $user = new User($_POST["user"], $_POST["password"]);
@@ -11,6 +13,8 @@ if(isset($_POST["btn-submit"])) {
     if($user->authenticate()) {
         header("Location: private.php?page=drivers");
     }
+
+    $errorText = "Usuário e/ou senha incorreta(s)";
 }
 
 ?>
@@ -35,17 +39,21 @@ if(isset($_POST["btn-submit"])) {
             
             <section>
                 <label for="user">Usuário</label>
-                <input type="text" name="user" id="user">
+                <input type="text" name="user" id="user" required>
             </section>
             
             <section>
                 <label for="password">Senha</label>
-                <input type="password" name="password" id="password">
+                <input type="password" name="password" id="password" required>
             </section>
 
             <section class="links">
                 <a href="addUser.php">Não possui cadastro? Crie aqui</a>
                 <input type="submit" value="Entrar" name="btn-submit" class="send-btn">
+            </section>
+
+            <section class="error">
+                <p> <?php echo $errorText ?> </p>
             </section>
         </form>
     </div>

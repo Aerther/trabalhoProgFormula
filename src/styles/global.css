@@ -10,8 +10,8 @@ body {
 }
 
 #container {
-    width: 400px;
-    height: 400px;
+    width: 450px;
+    height: 480px;
 
     background-color: #D72638;
     border-radius: 15px;
@@ -52,7 +52,7 @@ form {
 
     display: grid;
     grid-template-columns: 100%;
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-rows: repeat(4, 1fr) 30px;
 }
 
 section {
@@ -80,7 +80,7 @@ input:not(.send-btn) {
     border: 1px solid #2E2E2E;
 
     font-family: "Lato", sans-serif;
-    font-weight: 100;
+    font-weight: 300;
 }
 
 input:not(.send-btn):focus {
@@ -131,4 +131,14 @@ a:hover {
 
 h2 {
     font-size: 46px;
+}
+
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.error > p {
+    font-size: 18px;
 }

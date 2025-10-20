@@ -10,7 +10,7 @@ $drivers = Driver::findAllDrivers($nameParam);
 
 <div id="home-drivers">
     <div class="drivers-get">
-        <a href="">Create Driver</a>
+        <a href="./pages/addDriver.php">Create Driver</a>
     </div>
 
     <div class="drivers">

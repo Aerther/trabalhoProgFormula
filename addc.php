@@ -11,7 +11,7 @@ foreach ($dados as $item) {
     $nameC = $item['translations']['por']['common'];
     if ($nameC) {
         $country = new Country($nameC);
-        $country->saveCountry();
+        $country->createCountry();
     }
 }
 
