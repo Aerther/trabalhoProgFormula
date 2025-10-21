@@ -37,7 +37,7 @@ class User {
 
         $types = "s";
         $params = [$this->user];
-        $sql = "SELECT u.idUser, u.username, u.password, u.email FROM user u WHERE u.username = ?";
+        $sql = "SELECT u.idUser, u.username, u.password, u.email FROM user u WHERE BINARY u.username = ?";
 
         $result = $connection->search($sql, $types, $params);
 
@@ -61,7 +61,7 @@ class User {
 
         $types = "s";
         $params = [$this->user];
-        $sql = "SELECT 1 FROM user u WHERE u.username = ?";
+        $sql = "SELECT 1 FROM user u WHERE BINARY u.username = ?";
 
         $result = $connection->search($sql, $types, $params);
 

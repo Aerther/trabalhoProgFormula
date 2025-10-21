@@ -14,7 +14,7 @@ $driverNumber = $_POST["driverNumber"];
 $driverColor = $_POST["driverColor"];
 $driverCountry = $_POST["driverCountry"];
 
-$driver = new Driver($driverName, (int) $driverNumberm, (int) $driverLevel, $driverColor, (int) $driverCountry);
+$driver = new Driver($driverName, (int) $driverNumber, (int) $driverLevel, $driverColor, (int) $driverCountry);
 $driver->createDriver();
 
 header("Location: ./../private.php?page=drivers");

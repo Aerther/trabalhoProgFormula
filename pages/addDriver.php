@@ -17,7 +17,7 @@ $countries = Country::findAllCountries();
 
             <section>
                 <label for="driverLevel">Level</label>
-                <input type="number" name="driverLevel" id="driverLevel">
+                <input type="number" name="driverLevel" id="driverLevel" min="0" max="100">
             </section>
 
             <section>

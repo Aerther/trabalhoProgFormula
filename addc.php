@@ -13,7 +13,10 @@ foreach ($dados as $item) {
 
     if ($nameC) {
         $country = new Country($nameC, "https://flagsapi.com/{$code}/flat/64.png");
-        $country->createCountry();
+
+        if(!$country->countryExists()) {
+            $country->createCountry();
+        }
     }
 }
 

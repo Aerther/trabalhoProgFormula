@@ -50,6 +50,7 @@ if(isset($_POST["btn-submit"])) {
             <section class="links">
                 <a href="addUser.php">Não possui cadastro? Crie aqui</a>
                 <input type="submit" value="Entrar" name="btn-submit" class="send-btn">
+                <a href="addc.php">pais</a>
             </section>
 
             <section class="error">

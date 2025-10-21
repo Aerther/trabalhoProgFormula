@@ -25,6 +25,18 @@ class Country {
         $connection->execute($sql, $types, $params);
     }
 
+    public function countryExists() : bool {
+        $connection = new MySql();
+
+        $types = "s";
+        $params = [$this->countryName];
+        $sql = "SELECT 1 FROM country c WHERE c.name = ?";
+
+        $results = $connection->search($sql, $types, $params);
+
+        return !empty($results);
+    }
+
     public static function findAllCountries() : array {
         $connection = new MySql();
 
