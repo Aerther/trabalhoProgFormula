@@ -12,8 +12,10 @@ class Driver {
     private int $driverLevel;
     private string $driverColor;
     private int $driverIdCountry;
+    private string $driverFlag;
+    private string $driverCountryName;
 
-    public function __construct(string $driverName, string $driverNumber, string $driverLevel, string $driverColor, int $driverIdCountry) {
+    public function __construct(string $driverName, int $driverNumber, int $driverLevel, string $driverColor, int $driverIdCountry) {
         $this->driverName = $driverName;
         $this->driverNumber = $driverNumber;
         $this->driverLevel = $driverLevel;
@@ -46,7 +48,7 @@ class Driver {
 
         $types = "is";
         $params = [$_SESSION["idUser"], "%{$driverName}%"];
-        $sql = "SELECT * FROM driver d WHERE d.idUser = ? AND d.fullName LIKE ?";
+        $sql = "SELECT d.*, c.* FROM driver d JOIN country c ON c.idCountry = d.idCountry WHERE d.idUser = ? AND d.fullName LIKE ?";
 
         $results = $connection->search($sql, $types, $params);
 
@@ -54,6 +56,8 @@ class Driver {
             $driver = new Driver($result['fullName'], $result["number"], $result["level"], $result["color"], $result["idCountry"]);
 
             $driver->setIdDriver($result['idDriver']);
+            $driver->setDriverFlag($result["linkFlag"]);
+            $driver->setDriverCountry($result["name"]);
 
             $drivers[] = $driver;
         }
@@ -70,9 +74,9 @@ class Driver {
 
         session_start();
 
-        $types = "siisii";
+        $types = "ssisii";
         $params = [$this->driverName, $this->driverColor, $this->driverNumber, $this->driverLevel, $_SESSION["idUser"], $this->driverIdCountry];
-        $sql = "INSERT INTO driver (fullName, color, 'number', 'level', idUser, idCountry) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO driver (fullName, color, number, level, idUser, idCountry) VALUES (?, ?, ?, ?, ?, ?)";
 
         $connection->execute($sql, $types, $params);
     }
@@ -87,37 +91,55 @@ class Driver {
         $this->idDriver = $idDriver;
     }
 
-    function getDriverName() : string {
+    public function getDriverName() : string {
         return $this->driverName;
     }
 
-    function setDriverName($driverName) : void {
+    public function setDriverName($driverName) : void {
         $this->driverName = $driverName;
     }
 
-    function getDriverNumber() : int {
+    public function getDriverNumber() : int {
         return $this->driverNumber;
     }
 
-    function setDriverNumber($driverNumber) : void {
+    public function setDriverNumber($driverNumber) : void {
         $this->driverNumber = $driverNumber;
     }
 
-    function getDriverLevel() : int {
+    public function getDriverLevel() : int {
         return $this->driverLevel;
     }
 
-    function setDriverLevel($driverLevel) : void {
+    public function setDriverLevel($driverLevel) : void {
         $this->driverLevel = $driverLevel;
     }
 
-    function getDriverColor() : string {
+    public function getDriverColor() : string {
         return $this->driverColor;
     }
 
-    function setDriverColor($driverColor) : void {
+    public function setDriverColor($driverColor) : void {
         $this->driverColor = $driverColor;
     }
+
+    public function getDriverCountry() : string {
+        return $this->driverCountryName;
+    }
+
+    public function setDriverCountry($driverCountryName) : void {
+        $this->driverCountryName = $driverCountryName;
+    }
+
+    public function getDriverFlag() : string {
+        return $this->driverFlag;
+    }
+
+    public function setDriverFlag($driverFlag) : void {
+        $this->driverFlag = $driverFlag;
+    }
+
+    
 }
 
 ?>

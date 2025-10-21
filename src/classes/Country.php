@@ -8,17 +8,19 @@ class Country {
 
     private int $idCountry;
     private string $countryName;
+    private string $linkFlag;
 
-    public function __construct(string $countryName) {
+    public function __construct(string $countryName, string $linkFlag) {
         $this->countryName = $countryName;
+        $this->linkFlag = $linkFlag;
     }
 
     public function createCountry() : void {
         $connection = new MySql();
 
-        $types = "s";
-        $params = [$this->countryName];
-        $sql = "INSERT INTO country (name) VALUES (?)";
+        $types = "ss";
+        $params = [$this->countryName, $this->linkFlag];
+        $sql = "INSERT INTO country (name, linkFlag) VALUES (?, ?)";
 
         $connection->execute($sql, $types, $params);
     }
@@ -35,7 +37,7 @@ class Country {
         $results = $connection->search($sql, $types, $params);
 
         foreach($results as $result) {
-            $country = new Country($result['name']);
+            $country = new Country($result['name'], $result["linkFlag"]);
 
             $country->setIdCountry($result['idCountry']);
 
@@ -59,6 +61,11 @@ class Country {
     // Country Name
     public function getCountryName() : string {
         return $this->countryName;
+    }
+
+    // Link Flag
+    public function getLinkFlag() : string {
+        return $this->linkFlag;
     }
 }
 

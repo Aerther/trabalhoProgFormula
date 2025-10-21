@@ -21,6 +21,8 @@ $pages = ["drivers" => "drivers.php", "races" => "races.php", "shareddrivers" =>
     <link rel="stylesheet" href="./src/styles/reset.css">
     <link rel="stylesheet" href="./src/styles/index.css">
 
+    <script src="./src/js/main.js" defer></script>
+
     <title>Home</title>
 </head>
 <body>
@@ -50,7 +52,7 @@ $pages = ["drivers" => "drivers.php", "races" => "races.php", "shareddrivers" =>
         </main>
 
         <footer>
-
+            <a href="#" class="come-to-top">Subir</a>
         </footer>
     </div>
 </body>

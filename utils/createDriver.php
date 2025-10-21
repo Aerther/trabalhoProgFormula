@@ -1,20 +1,20 @@
 <?php
 
-require_once __DIR__."/vendor/autoload.php";
+require_once __DIR__."/../vendor/autoload.php";
 
 use App\Classes\Driver;
 
-if(!isset($_GET["driverName"])) {
+if(!isset($_POST["btn-submit"])) {
     header("Location: ./../private.php?page=drivers");
 }
 
-$driverName = $_GET["driverName"];
-$driverLevel = $_GET["driverLevel"];
-$driverNumber = $_GET["driverNumber"];
-$driverColor = $_GET["driverColor"];
-$driverCountry = $_GET["driverCountry"];
+$driverName = $_POST["driverName"];
+$driverLevel = $_POST["driverLevel"];
+$driverNumber = $_POST["driverNumber"];
+$driverColor = $_POST["driverColor"];
+$driverCountry = $_POST["driverCountry"];
 
-$driver = new Driver($driverName, $driverLevel, $driverNumber, $driverColor, $driverIdCountry);
+$driver = new Driver($driverName, (int) $driverNumberm, (int) $driverLevel, $driverColor, (int) $driverCountry);
 $driver->createDriver();
 
 header("Location: ./../private.php?page=drivers");
