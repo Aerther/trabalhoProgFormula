@@ -14,16 +14,21 @@ if(isset($_POST["btn-submit"])) {
     $driverColor = $_POST["driverColor"];
     $driverCountry = $_POST["driverCountry"];
 
+    $driverId = $_POST["driverId"];
+
     $driver = new Driver($driverName, (int) $driverNumber, (int) $driverLevel, $driverColor, (int) $driverCountry);
+    $driver->setIdDriver($driverId);
 
     if(!$driver->driverExists()) {
-        $driver->createDriver();
+        $driver->updateDriver();
 
         header("Location: ./../private.php?page=drivers");
     }
 
-    $errorText = "Você já possui um piloto com este nome";
+    $errorText = "Você já possui um piloto com este nome (que não é esse sendo editado)";
 }
+
+$driver = Driver::findDriver($_GET["idDriver"]);
 
 $countries = Country::findAllCountries();
 
@@ -38,7 +43,7 @@ $countries = Country::findAllCountries();
     <link rel="stylesheet" href="./../src/styles/reset.css">
     <link rel="stylesheet" href="./../src/styles/global.css">
 
-    <title>Criar Piloto</title>
+    <title>Editar Piloto</title>
 
     <style>
         #container {
@@ -126,43 +131,47 @@ $countries = Country::findAllCountries();
 </head>
 <body>
     <div id="container">
-        <form action="./addDriver.php" method="post">
+        <form action="./editDriver.php" method="post">
             <section>
-                <h2>Criar Piloto</h2>
+                <?php echo "<h2>Editando: {$driver->getDriverName()}</h2>"; ?>
             </section>
 
             <section>
                 <label for="driverName">Nome</label>
-                <input type="text" name="driverName" id="driverName" required>
+                <?php echo "<input type='text' name='driverName' id='driverName' required value={$driver->getDriverName()}>"; ?>
             </section>
 
             <section class="number-input">
                 <section>
                     <label for="driverLevel">Level</label>
-                    <input type="number" name="driverLevel" id="driverLevel" min="0" max="100" required>
+                    <?php echo "<input type='number' name='driverLevel' id='driverLevel' min='0' max='100' required value={$driver->getDriverLevel()}>"; ?>
                 </section>
 
                 <section>
                     <label for="driverNumber">Número</label>
-                    <input type="number" name="driverNumber" id="driverNumber" required>
+                    <?php echo "<input type='number' name='driverNumber' id='driverNumber' required value={$driver->getDriverNumber()}>"; ?>
                 </section>
             </section>
             
             <section class="color-input">
                 <label for="driverColor">Cor do Piloto</label>
-                <input type="color" name="driverColor" id="driverColor" value="#a020f0" required>
+                <?php echo " <input type='color' name='driverColor' id='driverColor' required value={$driver->getDriverColor()}>"; ?>
             </section>
 
             <section class="country-input">
                 <section>
                     <label for="driverCountry">País</label>
                     <select name="driverCountry" id="driverCountry" required>
-                        <option value="" disabled selected>Selecione um país</option>
-                    
+                        <option value="" disabled>Selecione um país</option>
+                        
                         <?php
                         
                         foreach($countries as $country) {
-                            echo "<option value={$country->getIdCountry()} class='country' data-flag='{$country->getLinkFlag()}'>{$country->getCountryName()}</option>";
+                            if($country->getCountryName() == $driver->getDriverCountry()) {
+                                echo "<option value={$country->getIdCountry()} class='country' data-flag='{$country->getLinkFlag()}' selected>{$country->getCountryName()}</option>";
+                            } else {
+                                echo "<option value={$country->getIdCountry()} class='country' data-flag='{$country->getLinkFlag()}'>{$country->getCountryName()}</option>";
+                            }
                         }
 
                         ?>
@@ -175,10 +184,12 @@ $countries = Country::findAllCountries();
                     </div>
                 </section>
             </section>
+            
+            <?php echo "<input name='driverId' value={$driver->getIdDriver()} type='hidden'>"; ?>
 
             <section class="links">
                 <a href="./../private.php?page=drivers">Cancelar</a>
-                <input type="submit" value="Criar Piloto" name="btn-submit" class="send-btn">
+                <input type="submit" value="Editar Piloto" name="btn-submit" class="send-btn">
             </section>
 
             <section class="error">
@@ -190,7 +201,7 @@ $countries = Country::findAllCountries();
     <script defer>
         let select = document.getElementById('driverCountry');
         let imageFlag = document.querySelector(".show-flag div img");
-        
+
         document.addEventListener("DOMContentLoaded", () => {
             optionSelected = select.options[select.selectedIndex];
             linkFlag = optionSelected.getAttribute('data-flag');
@@ -198,7 +209,7 @@ $countries = Country::findAllCountries();
             imageFlag.src = linkFlag;
             imageFlag.alt = "Flag " + optionSelected.textContent;
         });
-        
+
         select.addEventListener("change", function(e) {
             optionSelected = this.options[this.selectedIndex];
             linkFlag = optionSelected.getAttribute('data-flag');
