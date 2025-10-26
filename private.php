@@ -8,7 +8,12 @@ if(!isset($_SESSION["idUser"])) {
     header("Location: index.php");
 }
 
-$pages = ["drivers" => "drivers.php", "races" => "races.php", "shareddrivers" => "shareddrivers.php"];
+$pages = [
+    "drivers" => "drivers.php", 
+    "races" => "races.php", 
+    "shareddrivers" => "shareddrivers.php",
+    "myshareddrivers" => "myshareddrivers.php"
+];
 
 ?>
 
@@ -33,6 +38,7 @@ $pages = ["drivers" => "drivers.php", "races" => "races.php", "shareddrivers" =>
             <div class="buttons">
                 <a href="private.php?page=drivers" class=<?php if($_GET["page"] == "drivers") : ?> "visit" <?php endif; ?>>Pilotos</>
                 <a href="private.php?page=races" class=<?php if($_GET["page"] == "races") : ?> "visit" <?php endif; ?>>Corridas</a>
+                <a href="private.php?page=myshareddrivers" class=<?php if($_GET["page"] == "myshareddrivers") : ?> "visit" <?php endif; ?>>Meus pilotos compartilhados</a>
                 <a href="private.php?page=shareddrivers" class=<?php if($_GET["page"] == "shareddrivers") : ?> "visit" <?php endif; ?>>Pilotos compartilhados</a>
             </div>
 
@@ -40,6 +46,7 @@ $pages = ["drivers" => "drivers.php", "races" => "races.php", "shareddrivers" =>
                 <figure>
                     <img src="./src/images/profile.png" alt="profile picture">
                 </figure>
+                <?php echo "<p>{$_SESSION['user']}</p>"?>
             </div>
         </header>
 

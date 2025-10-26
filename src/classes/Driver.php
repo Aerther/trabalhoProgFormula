@@ -170,6 +170,36 @@ class Driver {
         return $drivers;
     }
 
+    public static function findAllMySharedDrivers(string $driverName) : array {
+        $connection = new MySql();
+
+        $drivers = [];
+
+        if(session_status() != 2) session_start();
+
+        $types = "si";
+        $params = ["%{$driverName}%", $_SESSION["idUser"]];
+        $sql = "SELECT d.*, c.* FROM driver d JOIN country c ON c.idCountry = d.idCountry WHERE d.fullName LIKE ? AND d.isActive = 1 AND d.idUser = ?";
+
+        $results = $connection->search($sql, $types, $params);
+
+        foreach($results as $result) {
+            $driver = new Driver($result['fullName'], $result["number"], $result["level"], $result["color"], $result["idCountry"]);
+
+            $driver->setIdDriver($result['idDriver']);
+            $driver->setDriverFlag($result["linkFlag"]);
+            $driver->setDriverCountry($result["name"]);
+            $driver->setDriverDateShared($result["dateShared"]);
+            $driver->setDriverActive(boolval($result["isActive"]));
+
+            $drivers[] = $driver;
+        }
+
+        return $drivers;
+    }
+
+
+
     public function shareDriver($action) : void {
         $connection = new MySql();
 
@@ -258,7 +288,7 @@ class Driver {
         $this->driverFlag = $driverFlag;
     }
 
-    public function getDateShared() : string {
+    public function getDriverDateShared() : string {
         return $this->driverDateShared;
     }
 
@@ -272,6 +302,10 @@ class Driver {
 
     public function setDriverActive($driverActive) : void {
         $this->driverActive = $driverActive;
+    }
+
+    public function getDriverAuthor() : string {
+        return "Violeta";
     }
 }
 

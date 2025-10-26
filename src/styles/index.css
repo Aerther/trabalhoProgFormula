@@ -29,7 +29,7 @@ header {
     border-bottom: 3px solid var(--first-color);
 
     display: grid;
-    grid-template-columns: 1fr 150px;
+    grid-template-columns: 1fr 300px;
     grid-template-rows: 1fr 1fr;
     grid-template-areas:
     "h-text h-img"
@@ -69,8 +69,11 @@ header > h1 {
     grid-area: h-img;
 
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    gap: 5px;
 }
 
 .profile-img > figure {
@@ -295,6 +298,14 @@ a:hover {
 
 .actions .delete:active {
     color: red;
+}
+
+.actions .download {
+    background-color: blueviolet;
+}
+
+.actions .download:active {
+    color: blueviolet;
 }
 
 /* SCROLL BACK CSS */

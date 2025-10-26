@@ -4,7 +4,7 @@ use App\Classes\Driver;
 
 $nameParam = isset($_GET["driverName"]) ? $_GET["driverName"] : "";
 
-$drivers = Driver::findAllSharedDrivers($nameParam);
+$drivers = Driver::findAllMySharedDrivers($nameParam);
 
 ?>
 
@@ -59,8 +59,11 @@ $drivers = Driver::findAllSharedDrivers($nameParam);
             echo "<p class='author'>Criado por: {$driver->getDriverAuthor()}</p>";
             echo "</div>";
 
+            $shareAction = $driver->isDriverActive() ? 0 : 1;
+            $shareText = $driver->isDriverActive() ? "Descompartilhar" : "Compartilhar";
+
             echo "<div class='actions'>";
-            echo "<a href='./utils/downloadDriver.php?idDriver={$driver->getIdDriver()}' class='download'>Download</a>";
+            echo "<a href='./utils/shareDriver.php?idDriver={$driver->getIdDriver()}&action={$shareAction}' class='share'>{$shareText}</a>";
             echo "</div>";
 
             echo "</div>";
