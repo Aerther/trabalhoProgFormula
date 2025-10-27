@@ -9,24 +9,26 @@ $drivers = Driver::findAllSharedDrivers($nameParam);
 ?>
 
 <div id="home-drivers">
-    <div class="drivers-create">
-        <a href="./pages/addDriver.php">Create Driver</a>
-    </div>
+    <style>
+            #home-drivers {
+                grid-template-rows: 100%;
 
-    <div class="drivers">
-        <style>
+                padding-top: 50px;
+            }
+
             .driver {
                 height: 330px;
                 grid-template-rows: 1fr 0.7fr 1fr 1fr 1fr;
             }
-        </style>
+    </style>
+    <div class="drivers">
         <?php
 
         foreach ($drivers as $driver) {
             echo "<div class='driver'>";
 
-            echo "<div>";
-            echo "<h2 class='name'>{$driver->getDriverName()}</h2>";
+            echo "<div class='name'>";
+            echo "<h2>{$driver->getDriverName()}</h2>";
             echo "</div>";
 
             echo "<div class='div-flag'>";
@@ -35,28 +37,28 @@ $drivers = Driver::findAllSharedDrivers($nameParam);
             echo "</figure>";
             echo "</div>";
 
-            echo "<div>";
-            echo "<p class='number'>Número: {$driver->getDriverNumber()}</p>";
+            echo "<div class='number'>";
+            echo "<p>Número: {$driver->getDriverNumber()}</p>";
+            echo "</div>";
+
+            echo "<div class='level'>";
+            echo "<p>Level: {$driver->getDriverLevel()}</p>";
+            echo "</div>";
+
+            echo "<div class='country'>";
+            echo "<p>País: {$driver->getDriverCountry()}</p>";
+            echo "</div>";
+
+            echo "<div class='color'>";
+            echo "<p>Cor: {$driver->getDriverColor()}</p>";
             echo "</div>";
 
             echo "<div>";
-            echo "<p class='level'>Level: {$driver->getDriverLevel()}</p>";
+            echo "<p class='dateShared'>Compartilhado em: </p>";
             echo "</div>";
 
             echo "<div>";
-            echo "<p class='country'>País: {$driver->getDriverCountry()}</p>";
-            echo "</div>";
-
-            echo "<div>";
-            echo "<p class='color'>Cor: {$driver->getDriverColor()}</p>";
-            echo "</div>";
-
-            echo "<div>";
-            echo "<p class='dateShared'>Data: {$driver->getDriverDateShared()}</p>";
-            echo "</div>";
-
-            echo "<div>";
-            echo "<p class='author'>Criado por: {$driver->getDriverAuthor()}</p>";
+            echo "<p class='dateShared'>{$driver->getDriverDateShared()}</p>";
             echo "</div>";
 
             echo "<div class='actions'>";

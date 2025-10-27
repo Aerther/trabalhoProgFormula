@@ -15,7 +15,9 @@ class Driver {
     private string $driverFlag;
     private string $driverCountryName;
 
+    private string $dateCreated;
     private string $driverDateShared;
+    private string $driverHourShared;
     private bool $driverActive;
 
     public function __construct(string $driverName, int $driverNumber, int $driverLevel, string $driverColor, int $driverIdCountry) {
@@ -45,7 +47,7 @@ class Driver {
 
         $types = "i";
         $params = [$idDriver];
-        $sql = "SELECT d.*, c.* FROM driver d JOIN country c ON c.idCountry = d.idCountry WHERE d.idDriver = ?";
+        $sql = "SELECT d.*, c.*, DATE_FORMAT(d.dateCreated, '%H:%i - %d/%m/%Y') AS dateCreated FROM driver d JOIN country c ON c.idCountry = d.idCountry WHERE d.idDriver = ?";
 
         $result = $connection->search($sql, $types, $params)[0];
 
@@ -54,19 +56,20 @@ class Driver {
         $driver->setDriverFlag($result["linkFlag"]);
         $driver->setDriverCountry($result["name"]);
         $driver->setDriverActive(boolval($result["isActive"]));
+        $driver->setDriverDateCreated($result["dateCreated"]);
 
         return $driver;
     }
 
-    public static function findAllDrivers(string $driverName) : array {
+    public static function findAllDrivers(string $driverName = "") : array {
         $connection = new MySql();
 
         $drivers = [];
 
         $types = "is";
         $params = [$_SESSION["idUser"], "%{$driverName}%"];
-        $sql = "SELECT d.*, c.* FROM driver d 
-        JOIN country c ON c.idCountry = d.idCountry WHERE d.idUser = ? AND d.fullName LIKE ? ORDER BY d.isActive";
+        $sql = "SELECT d.*, c.*, DATE_FORMAT(d.dateCreated, '%H:%i - %d/%m/%Y') AS dateCreated FROM driver d 
+        JOIN country c ON c.idCountry = d.idCountry WHERE d.idUser = ? AND d.fullName LIKE ? ORDER BY d.isActive, d.fullName";
 
         $results = $connection->search($sql, $types, $params);
 
@@ -77,6 +80,7 @@ class Driver {
             $driver->setDriverFlag($result["linkFlag"]);
             $driver->setDriverCountry($result["name"]);
             $driver->setDriverActive(boolval($result["isActive"]));
+            $driver->setDriverDateCreated($result["dateCreated"]);
 
             $drivers[] = $driver;
         }
@@ -131,18 +135,19 @@ class Driver {
 
         $types = "i";
         $params = [$idSharedDriver];
-        $sql = "SELECT * FROM driver d WHERE d.idDriver = ? AND d.isActive = 1";
+        $sql = "SELECT *,  FROM driver d WHERE d.idDriver = ? AND d.isActive = 1";
 
         $results = $connection->search($sql, $types, $params);
 
         $driver = new Driver($result["fullName"], $result["number"], $result["level"], $result["color"], $result["idCountry"]);
         $driver->setIdDriver($idDriver);
         $driver->setDriverDateShared($result["dateShared"]);
+        $driver->setDriverDateCreated($result["dateCreated"]);
 
         return $driver;
     }
 
-    public static function findAllSharedDrivers(string $driverName) : array {
+    public static function findAllSharedDrivers(string $driverName = "") : array {
         $connection = new MySql();
 
         $drivers = [];
@@ -151,7 +156,8 @@ class Driver {
 
         $types = "si";
         $params = ["%{$driverName}%", $_SESSION["idUser"]];
-        $sql = "SELECT d.*, c.* FROM driver d JOIN country c ON c.idCountry = d.idCountry WHERE d.fullName LIKE ? AND d.isActive = 1 AND d.idUser != ?";
+        $sql = "SELECT d.*, c.*, DATE_FORMAT(d.dateShared, '%H:%i - %d/%m/%Y') AS dateShared, DATE_FORMAT(d.dateCreated, '%H:%i - %d/%m/%Y') AS dateCreated FROM driver d 
+        JOIN country c ON c.idCountry = d.idCountry WHERE d.fullName LIKE ? AND d.isActive = 1 AND d.idUser != ? ORDER BY d.fullName";
 
         $results = $connection->search($sql, $types, $params);
 
@@ -163,6 +169,7 @@ class Driver {
             $driver->setDriverCountry($result["name"]);
             $driver->setDriverDateShared($result["dateShared"]);
             $driver->setDriverActive(boolval($result["isActive"]));
+            $driver->setDriverDateCreated($result["dateCreated"]);
 
             $drivers[] = $driver;
         }
@@ -179,7 +186,7 @@ class Driver {
 
         $types = "si";
         $params = ["%{$driverName}%", $_SESSION["idUser"]];
-        $sql = "SELECT d.*, c.* FROM driver d JOIN country c ON c.idCountry = d.idCountry WHERE d.fullName LIKE ? AND d.isActive = 1 AND d.idUser = ?";
+        $sql = "SELECT d.*, c.*, DATE_FORMAT(d.dateShared, '%H:%i - %d/%m/%Y') AS dateShared, DATE_FORMAT(d.dateCreated, '%H:%i - %d/%m/%Y') AS dateCreated FROM driver d JOIN country c ON c.idCountry = d.idCountry WHERE d.fullName LIKE ? AND d.isActive = 1 AND d.idUser = ?";
 
         $results = $connection->search($sql, $types, $params);
 
@@ -191,14 +198,13 @@ class Driver {
             $driver->setDriverCountry($result["name"]);
             $driver->setDriverDateShared($result["dateShared"]);
             $driver->setDriverActive(boolval($result["isActive"]));
+            $driver->setDriverDateCreated($result["dateCreated"]);
 
             $drivers[] = $driver;
         }
 
         return $drivers;
     }
-
-
 
     public function shareDriver($action) : void {
         $connection = new MySql();
@@ -207,7 +213,7 @@ class Driver {
 
         $types = "ii";
         $params = [$this->idDriver, $_SESSION["idUser"]];
-        $sql = "UPDATE driver SET isActive = {$action}, dateShared = NOW() WHERE idDriver = ? AND idUser = ?";
+        $sql = "UPDATE driver SET isActive = {$action}, dateShared = CURRENT_TIMESTAMP() WHERE idDriver = ? AND idUser = ?";
 
         $connection->execute($sql, $types, $params);
     }
@@ -294,6 +300,14 @@ class Driver {
 
     public function setDriverDateShared($driverDateShared) : void {
         $this->driverDateShared = $driverDateShared;
+    }
+
+    public function getDriverDateCreated() : string {
+        return $this->driverDateCreated;
+    }
+
+    public function setDriverDateCreated($driverDateCreated) : void {
+        $this->driverDateCreated = $driverDateCreated;
     }
 
     public function isDriverActive() : bool {

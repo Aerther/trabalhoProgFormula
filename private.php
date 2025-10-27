@@ -10,7 +10,7 @@ if(!isset($_SESSION["idUser"])) {
 
 $pages = [
     "drivers" => "drivers.php", 
-    "races" => "races.php", 
+    "race" => "race.php", 
     "shareddrivers" => "shareddrivers.php",
     "myshareddrivers" => "myshareddrivers.php"
 ];
@@ -33,11 +33,13 @@ $pages = [
 <body>
     <div id="container">
         <header>
-            <h1>Sharing Formulas</h1>
+            <h1>Formula X</h1>
 
             <div class="buttons">
                 <a href="private.php?page=drivers" class=<?php if($_GET["page"] == "drivers") : ?> "visit" <?php endif; ?>>Pilotos</>
-                <a href="private.php?page=races" class=<?php if($_GET["page"] == "races") : ?> "visit" <?php endif; ?>>Corridas</a>
+
+                <!-- Não foi utilizado <a href="private.php?page=race" class=<?php if($_GET["page"] == "race") : ?> "visit" <?php endif; ?>>Corrida</a> -->
+
                 <a href="private.php?page=myshareddrivers" class=<?php if($_GET["page"] == "myshareddrivers") : ?> "visit" <?php endif; ?>>Meus pilotos compartilhados</a>
                 <a href="private.php?page=shareddrivers" class=<?php if($_GET["page"] == "shareddrivers") : ?> "visit" <?php endif; ?>>Pilotos compartilhados</a>
             </div>
@@ -57,10 +59,8 @@ $pages = [
 
             ?>
         </main>
-
-        <footer>
-            <a href="#" class="come-to-top">Subir</a>
-        </footer>
+        
+        <a href="#" class="come-to-top">Subir</a>
     </div>
 </body>
 </html>

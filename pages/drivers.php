@@ -10,7 +10,7 @@ $drivers = Driver::findAllDrivers($nameParam);
 
 <div id="home-drivers">
     <div class="drivers-create">
-        <a href="./pages/addDriver.php">Create Driver</a>
+        <a href="./pages/addDriver.php">Criar Piloto</a>
     </div>
 
     <div class="drivers">
@@ -43,6 +43,14 @@ $drivers = Driver::findAllDrivers($nameParam);
 
             echo "<div>";
             echo "<p class='color'>Cor: {$driver->getDriverColor()}</p>";
+            echo "</div>";
+
+            echo "<div>";
+            echo "<p class='dateShared'>Criado em: </p>";
+            echo "</div>";
+
+            echo "<div>";
+            echo "<p class='dateShared'>{$driver->getDriverDateCreated()}</p>";
             echo "</div>";
 
             $shareAction = $driver->isDriverActive() ? 0 : 1;
