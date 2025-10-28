@@ -31,10 +31,12 @@ class Driver {
         $this->driverIdCountry = $driverIdCountry;
     }
     
-    public function copyDriver() {
+    public function copyDriver() : void {
         $connection = new MySql();
 
         if(session_status() != 2 ) session_start();
+
+        if($this->driverExists()) return;
 
         $types = "isisii";
         $params = [$this->driverNumber, $this->driverName, $this->driverLevel, $this->driverColor, $_SESSION["idUser"], $this->driverIdCountry];

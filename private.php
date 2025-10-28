@@ -4,16 +4,23 @@ require_once __DIR__."/vendor/autoload.php";
 
 session_start();
 
+$pages = [
+    "drivers" => "drivers.php",
+    "shareddrivers" => "shareddrivers.php",
+    "myshareddrivers" => "myshareddrivers.php"
+];
+
 if(!isset($_SESSION["idUser"])) {
     header("Location: index.php");
 }
 
-$pages = [
-    "drivers" => "drivers.php", 
-    "race" => "race.php", 
-    "shareddrivers" => "shareddrivers.php",
-    "myshareddrivers" => "myshareddrivers.php"
-];
+if(!isset($_GET["page"])) {
+    header("Location: private.php?page=drivers");
+}
+
+if(!array_key_exists($_GET["page"], $pages)) {
+    header("Location: private.php?page=drivers");
+}
 
 ?>
 
@@ -47,6 +54,16 @@ $pages = [
             <div class="profile-img">
                 <figure>
                     <img src="./src/images/profile.png" alt="profile picture">
+
+                    <div class="menu">
+                        <a href='logout.php' class='exit'>
+                            <div class='exit-drawn'>
+                                <div></div>
+                            </div>
+
+                            <p>Sair</p>
+                        </a>
+                    </div>
                 </figure>
                 <?php echo "<p>{$_SESSION['user']}</p>"?>
             </div>

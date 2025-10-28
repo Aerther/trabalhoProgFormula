@@ -187,12 +187,12 @@ $countries = Country::findAllCountries();
         </form>
     </div>
 
-    <script defer>
+    <script>
         let select = document.getElementById('driverCountry');
         let imageFlag = document.querySelector(".show-flag div img");
         
         document.addEventListener("DOMContentLoaded", () => {
-            optionSelected = select.options[select.selectedIndex];
+            optionSelected = select.options[31];
             linkFlag = optionSelected.getAttribute('data-flag');
 
             imageFlag.src = linkFlag;

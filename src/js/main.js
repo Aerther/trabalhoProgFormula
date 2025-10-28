@@ -13,3 +13,14 @@ linkComeTop.addEventListener("click", function(e) {
 
     window.scrollTo({top: 0, behavior: "smooth"});
 });
+
+let profileImg = document.querySelector(".profile-img figure");
+let menu = document.querySelector(".menu");
+
+profileImg.addEventListener("click", () => {
+    if(menu.classList.contains("visible")) {
+        menu.classList.remove("visible");
+    } else {
+        menu.classList.add("visible");
+    }
+});
