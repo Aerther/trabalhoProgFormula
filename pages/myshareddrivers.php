@@ -15,17 +15,12 @@ $drivers = Driver::findAllMySharedDrivers($nameParam);
 
                 padding-top: 50px;
             }
-
-            .driver {
-                height: 330px;
-                grid-template-rows: 1fr 0.7fr 1fr 1fr 1fr;
-            }
     </style>
     <div class="drivers">
         <?php
 
         foreach ($drivers as $driver) {
-            echo "<div class='driver'>";
+            echo "<div class='driver' id='{$driver->getIdDriver()}'>";
 
             echo "<div class='name'>";
             echo "<h2>{$driver->getDriverName()}</h2>";
@@ -65,6 +60,8 @@ $drivers = Driver::findAllMySharedDrivers($nameParam);
             $shareText = $driver->isDriverActive() ? "Descompartilhar" : "Compartilhar";
 
             echo "<div class='actions'>";
+            echo "<a class='like-a good inactive-a'> <figure class='like'> <img src='./src/images/like.png' alt='Like' />  </figure> <p>{$driver->getLikes()}</p> </a>";
+            echo "<a class='like-a bad inactive-a'> <figure class='like'> <img src='./src/images/like.png' alt='Like' />  </figure> <p>{$driver->getDislikes()}</p> </a>";
             echo "<a href='./utils/shareDriver.php?idDriver={$driver->getIdDriver()}&action={$shareAction}' class='share'>{$shareText}</a>";
             echo "</div>";
 

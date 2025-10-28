@@ -15,17 +15,12 @@ $drivers = Driver::findAllSharedDrivers($nameParam);
 
                 padding-top: 50px;
             }
-
-            .driver {
-                height: 330px;
-                grid-template-rows: 1fr 0.7fr 1fr 1fr 1fr;
-            }
     </style>
     <div class="drivers">
         <?php
 
         foreach ($drivers as $driver) {
-            echo "<div class='driver'>";
+            echo "<div class='driver' id='{$driver->getIdDriver()}'>";
 
             echo "<div class='name'>";
             echo "<h2>{$driver->getDriverName()}</h2>";
@@ -62,6 +57,8 @@ $drivers = Driver::findAllSharedDrivers($nameParam);
             echo "</div>";
 
             echo "<div class='actions'>";
+            echo "<a href='./utils/likeDriver.php?idDriver={$driver->getIdDriver()}&action=1' class='like-a good'> <figure class='like'> <img src='./src/images/like.png' alt='Like' />  </figure> <p>{$driver->getLikes()}</p> </a>";
+            echo "<a href='./utils/likeDriver.php?idDriver={$driver->getIdDriver()}&action=-1' class='like-a bad'> <figure class='like'> <img src='./src/images/like.png' alt='Like' />  </figure> <p>{$driver->getDislikes()}</p> </a>";
             echo "<a href='./utils/downloadDriver.php?idDriver={$driver->getIdDriver()}' class='download'>Download</a>";
             echo "</div>";
 

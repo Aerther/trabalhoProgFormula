@@ -20,6 +20,9 @@ class Driver {
     private string $driverHourShared;
     private bool $driverActive;
 
+    private int $likes;
+    private int $dislikes;
+
     public function __construct(string $driverName, int $driverNumber, int $driverLevel, string $driverColor, int $driverIdCountry) {
         $this->driverName = $driverName;
         $this->driverNumber = $driverNumber;
@@ -170,6 +173,7 @@ class Driver {
             $driver->setDriverDateShared($result["dateShared"]);
             $driver->setDriverActive(boolval($result["isActive"]));
             $driver->setDriverDateCreated($result["dateCreated"]);
+            $driver->setLikes();
 
             $drivers[] = $driver;
         }
@@ -190,6 +194,8 @@ class Driver {
 
         $results = $connection->search($sql, $types, $params);
 
+
+
         foreach($results as $result) {
             $driver = new Driver($result['fullName'], $result["number"], $result["level"], $result["color"], $result["idCountry"]);
 
@@ -199,11 +205,74 @@ class Driver {
             $driver->setDriverDateShared($result["dateShared"]);
             $driver->setDriverActive(boolval($result["isActive"]));
             $driver->setDriverDateCreated($result["dateCreated"]);
+            $driver->setLikes();
 
             $drivers[] = $driver;
         }
 
         return $drivers;
+    }
+
+    public function userHasLiked() : int {
+        $connection = new MySql();
+
+        session_start();
+
+        $types = "ii";
+        $params = [$this->idDriver, $_SESSION["idUser"]];
+        $sql = "SELECT l.reaction FROM liked l WHERE l.idDriver = ? AND l.idUser = ?";
+
+        $results = $connection->search($sql, $types, $params);
+
+        // Significa que ainda não existe uma linha na tabela liked
+        if(empty($results)) return -2;
+
+        return $results[0]["reaction"];
+    }
+
+    public function likeDriver($action) : void {
+        $connection = new MySql();
+
+        $result = $this->userHasLiked();
+        
+        session_start();
+
+        // Caso for querer remover o like/dislike
+        if($result == $action) $action = 0;
+
+        $types = "iii";
+        $params = [$action, $this->idDriver, $_SESSION["idUser"]];
+        $sql = "UPDATE liked SET reaction = ? WHERE idDriver = ? AND idUser = ?";
+
+        if($result == -2) {
+            $sql = "INSERT INTO liked (reaction, idDriver, idUser) VALUES (?, ?, ?)";
+        }
+
+        $connection->execute($sql, $types, $params);
+    }
+
+    public function setLikes() : void {
+        $connection = new MySql();
+
+        $types = "i";
+        $params = [$this->idDriver];
+        $sql = "SELECT COUNT(l.reaction) AS Likes FROM liked l JOIN driver d ON d.idDriver = l.idDriver WHERE l.reaction = 1 AND d.idDriver = ?";
+
+        $results = $connection->search($sql, $types, $params);
+
+        if(empty($results)) $this->likes = 0;
+
+        $this->likes = $results[0]["Likes"];
+        
+        $types = "i";
+        $params = [$this->idDriver];
+        $sql = "SELECT COUNT(l.reaction) AS Likes FROM liked l JOIN driver d ON d.idDriver = l.idDriver WHERE l.reaction = -1 AND d.idDriver = ?";
+
+        $results = $connection->search($sql, $types, $params);
+
+        if(empty($results)) $this->dislikes = 0;
+
+        $this->dislikes = $results[0]["Likes"];
     }
 
     public function shareDriver($action) : void {
@@ -318,8 +387,12 @@ class Driver {
         $this->driverActive = $driverActive;
     }
 
-    public function getDriverAuthor() : string {
-        return "Violeta";
+    public function getLikes() : int {
+        return $this->likes;
+    }
+
+    public function getDislikes() : int {
+        return $this->dislikes;
     }
 }
 

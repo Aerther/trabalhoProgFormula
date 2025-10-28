@@ -104,7 +104,7 @@ header > h1 {
     background-color: var(--first-color);
     border-radius: 50%;
 
-    box-shadow: inset 0 0 3px #2E2E2E;
+    box-shadow: inset 0 0 3px var(--second-color);
     z-index: 0;
 }
 
@@ -174,7 +174,7 @@ a:hover {
     display: grid;
     grid-template-rows: 90px 1fr;
 
-    background-color: #2e2e2e;
+    background-color: var(--second-color);
 
     padding-bottom: 40px;
 }
@@ -187,7 +187,7 @@ a:hover {
 
     row-gap: 20px;
 
-    background-color: #2E2E2E;
+    background-color: var(--second-color);
 }
 
 .drivers-create {
@@ -200,7 +200,7 @@ a:hover {
 
 .driver {
     width: 300px;
-    height: 300px;
+    height: 360px;
 
     background-color: var(--first-color);
 
@@ -209,7 +209,7 @@ a:hover {
 
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 0.7fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 0.7fr 1fr 1fr 1.1fr;
 }
 
 .driver > div {
@@ -274,7 +274,7 @@ a:hover {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    align-items: center;
+    align-items: flex-start !important;
 }
 
 .actions .share {
@@ -311,6 +311,79 @@ a:hover {
 
 .actions .download:active {
     color: blueviolet;
+}
+
+.like-a {
+    width: 44.8px;
+    height: 44.8px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+}
+
+.like-a p {
+    position: absolute;
+
+    bottom: -30px;
+    left: 50%;
+
+    transform: translate(-50%);
+}
+
+.good:active img, .bad:active img {
+    filter: brightness(0) invert(40%) hue-rotate(180deg);
+}
+
+.inactive-a:active img {
+    filter: brightness(0) invert(1) !important;
+}
+
+.good.inactive-a:active {
+    background-color: #008cff !important;
+}
+
+.bad.inactive-a:active {
+    background-color: #ff0000 !important;
+}
+
+.like {
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+
+    z-index: 1;
+}
+
+.like img {
+    width: 100%;
+    height: 100%;
+
+    filter: brightness(0) invert(1);
+}
+
+.good {
+    background-color: #008cff;
+}
+
+.bad {
+    background-color: #ff0000;
+}
+
+.good img, .bad img {
+    position: relative;
+}
+
+.bad img {
+    transform: scaleY(-1) scaleX(-1);
 }
 
 /* SCROLL BACK CSS */
@@ -353,7 +426,7 @@ a:hover {
     width: 90%;
     height: 90%;
 
-    border: 1px solid #f2f2ff;
+    border: 1px solid var(--first-color);
     border-radius: 15px;
 }
 
@@ -362,11 +435,11 @@ a:hover {
     justify-content: center;
     align-items: center;
 
-    background-color: #8B0000;
+    background-color: var(--first-color);
 }
 
 .data-add-drivers {
-    background-color: #8B0000;
+    background-color: var(--first-color);
 }
 
 .data-track {
@@ -374,7 +447,7 @@ a:hover {
     height: 95%;
 
     grid-column: span 2;
-    background-color: #8B0000;
+    background-color: var(--first-color);
 }
 
 .table {
