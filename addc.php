@@ -1,5 +1,10 @@
 <?php
 
+// Utilizado para adicionar os países dentro do banco
+
+header("Location: index.php");
+exit;
+
 require_once __DIR__."/vendor/autoload.php";
 
 use App\Classes\Country;
