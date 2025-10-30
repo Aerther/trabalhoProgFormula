@@ -58,11 +58,12 @@ $drivers = Driver::findAllMySharedDrivers($nameParam);
 
             $shareAction = $driver->isDriverActive() ? 0 : 1;
             $shareText = $driver->isDriverActive() ? "Descompartilhar" : "Compartilhar";
+            $shareClass = $driver->isDriverActive() ? "unshare" : "share";
 
             echo "<div class='actions'>";
             echo "<a class='like-a good inactive-a'> <figure class='like'> <img src='./src/images/like.png' alt='Like' />  </figure> <p>{$driver->getLikes()}</p> </a>";
             echo "<a class='like-a bad inactive-a'> <figure class='like'> <img src='./src/images/like.png' alt='Like' />  </figure> <p>{$driver->getDislikes()}</p> </a>";
-            echo "<a href='./utils/shareDriver.php?idDriver={$driver->getIdDriver()}&action={$shareAction}' class='share'>{$shareText}</a>";
+            echo "<a href='./utils/shareDriver.php?idDriver={$driver->getIdDriver()}&action={$shareAction}' class={$shareClass}>{$shareText}</a>";
             echo "</div>";
 
             echo "</div>";

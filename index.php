@@ -34,7 +34,7 @@ if(isset($_POST["btn-submit"])) {
     <div id="container">
         <form action="index.php" method="post">
             <section>
-                <h2>Login</h2>
+                <h2>Formula X</h2>
             </section>
             
             <section>

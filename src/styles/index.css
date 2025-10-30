@@ -289,7 +289,7 @@ a:hover {
 
 .drivers {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     grid-template-rows: auto;
     justify-items: center;
 
@@ -317,7 +317,7 @@ a:hover {
 
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 0.7fr 1fr 1fr 1.1fr;
+    grid-template-rows: 1.3fr 0.7fr 1fr 1fr 1.1fr;
 }
 
 .driver > div {
@@ -385,6 +385,10 @@ a:hover {
     align-items: flex-start !important;
 }
 
+.actions a:active {
+    background-color: var(--third-color);
+}
+
 .actions .share {
     background-color: green;
 }
@@ -397,8 +401,16 @@ a:hover {
     background-color: red;
 }
 
-.actions a:active {
-    background-color: var(--third-color);
+.actions .download {
+    background-color: blueviolet;
+}
+
+.action .unshare {
+    background-color: #86318bff;
+}
+
+.action .unshare:active {
+    color: #86318bff;
 }
 
 .actions .share:active {
@@ -411,10 +423,6 @@ a:hover {
 
 .actions .delete:active {
     color: red;
-}
-
-.actions .download {
-    background-color: blueviolet;
 }
 
 .actions .download:active {

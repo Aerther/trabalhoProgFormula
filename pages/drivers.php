@@ -55,10 +55,11 @@ $drivers = Driver::findAllDrivers($nameParam);
 
             $shareAction = $driver->isDriverActive() ? 0 : 1;
             $shareText = $driver->isDriverActive() ? "Descompartilhar" : "Compartilhar";
+            $shareClass = $driver->isDriverActive() ? "unshare" : "share";
 
             echo "<div class='actions'>";
             echo "<a href='./pages/editDriver.php?idDriver={$driver->getIdDriver()}' class='edit'>Editar</a>";
-            echo "<a href='./utils/shareDriver.php?idDriver={$driver->getIdDriver()}&action={$shareAction}' class='share'>{$shareText}</a>";
+            echo "<a href='./utils/shareDriver.php?idDriver={$driver->getIdDriver()}&action={$shareAction}' class={$shareClass}>{$shareText}</a>";
             echo "<a href='./utils/deleteDriver.php?idDriver={$driver->getIdDriver()}' class='delete'>Excluir</a>";
             echo "</div>";
 
