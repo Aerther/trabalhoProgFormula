@@ -36,7 +36,7 @@ class Driver {
 
         if(session_status() != 2 ) session_start();
 
-        if($this->driverExists()) return;
+        if($this->driverExists(true)) return;
 
         $types = "isisii";
         $params = [$this->driverNumber, $this->driverName, $this->driverLevel, $this->driverColor, $_SESSION["idUser"], $this->driverIdCountry];
@@ -115,7 +115,7 @@ class Driver {
         $connection->execute($sql, $types, $params);
     }
 
-    public function driverExists() : bool {
+    public function driverExists(bool $myDriver = false) : bool {
         $connection = new MySql();
 
         session_start();
@@ -124,7 +124,7 @@ class Driver {
         $params = [$this->driverName, $_SESSION["idUser"]];
         $sql = "SELECT 1 FROM driver d WHERE d.fullName = ? AND d.idUser = ?";
 
-        if(!empty($this->idDriver)) {
+        if(!empty($this->idDriver) && !$myDriver) {
             $types = "sii";
             $params = [$this->driverName, $_SESSION["idUser"], $this->idDriver];
             $sql = "SELECT 1 FROM driver d WHERE d.fullName = ? AND d.idUser = ? AND d.idDriver != ?";
@@ -232,8 +232,10 @@ class Driver {
         return $results[0]["reaction"];
     }
 
-    public function likeDriver($action) : void {
+    public function likeDriver($action) : bool {
         $connection = new MySql();
+
+        if($this->driverExists(true)) return false; 
 
         $result = $this->userHasLiked();
         
@@ -251,6 +253,8 @@ class Driver {
         }
 
         $connection->execute($sql, $types, $params);
+
+        return true;
     }
 
     public function setLikes() : void {
@@ -277,8 +281,10 @@ class Driver {
         $this->dislikes = $results[0]["Likes"];
     }
 
-    public function shareDriver($action) : void {
+    public function shareDriver(string $action) : void {
         $connection = new MySql();
+
+        if(!$this->driverExists(true)) return;
 
         session_start();
 
@@ -292,9 +298,11 @@ class Driver {
     public function deleteDriver() : void {
         $connection = new MySql();
 
-        $types = "i";
-        $params = [$this->idDriver];
-        $sql = "DELETE FROM driver WHERE idDriver = ?";
+        if(session_status() != 2) session_start();
+
+        $types = "ii";
+        $params = [$this->idDriver, $_SESSION["idUser"]];
+        $sql = "DELETE FROM driver WHERE idDriver = ? AND idUser = ?";
 
         $connection->execute($sql, $types, $params);
     }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26/10/2025 às 05:06
+-- Tempo de geração: 30/10/2025 às 23:26
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -303,15 +303,21 @@ CREATE TABLE `driver` (
   `idUser` int(11) DEFAULT NULL,
   `idCountry` int(11) DEFAULT NULL,
   `isActive` tinyint(1) NOT NULL DEFAULT 0,
-  `dateShared` datetime DEFAULT NULL
+  `dateShared` datetime DEFAULT NULL,
+  `dateCreated` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Despejando dados para a tabela `driver`
+-- Estrutura para tabela `driverrace`
 --
 
-INSERT INTO `driver` (`idDriver`, `number`, `fullName`, `level`, `color`, `idUser`, `idCountry`, `isActive`, `dateShared`) VALUES
-(29, 1, 'Max', 100, '#721bf5', 4, 8, 1, '2025-10-22 01:04:05');
+CREATE TABLE `driverrace` (
+  `idDriver` int(11) NOT NULL,
+  `idRace` int(11) NOT NULL,
+  `Position` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -324,6 +330,18 @@ CREATE TABLE `lap` (
   `plusTime` decimal(5,2) NOT NULL,
   `idRace` int(11) DEFAULT NULL,
   `idDriver` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `liked`
+--
+
+CREATE TABLE `liked` (
+  `idDriver` int(11) NOT NULL,
+  `idUser` int(11) NOT NULL,
+  `reaction` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -366,19 +384,8 @@ CREATE TABLE `user` (
   `password` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
   `dateCreated` timestamp NOT NULL DEFAULT current_timestamp(),
-  `lastLogin` timestamp NULL DEFAULT NULL
+  `lastLogin` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `user`
---
-
-INSERT INTO `user` (`idUser`, `username`, `password`, `email`, `dateCreated`, `lastLogin`) VALUES
-(1, 'arthur', '$2y$10$d3bS65pb.9KUPGmdT.BwOOroHOajIWOiS8KkS4oxqlB9d7ZyXOFry', 'a@a', '2025-10-04 23:18:21', NULL),
-(2, 'violeta', '$2y$10$ukq/haPR.tJL/j7iLbLUiOkp7vwgDsg5HOpP/nyB7UJrtdYN/kpg.', 'arthur@gmail.com', '2025-10-20 22:01:47', NULL),
-(3, 'Lasanha', '$2y$10$M3Qz/jYpJyoUpakD/7.ATeFdr2aOiIfYknrjHned9uwFMMTkbW2au', 'lasanha@gmail.com', '2025-10-21 13:57:34', NULL),
-(4, 'l', '$2y$10$wcn.UES48OWQKMxvawL9ru3rBm.h89APgH7n6Fjy4e9hXCAA2DZ4i', 'l@l', '2025-10-21 23:14:17', NULL),
-(5, 'v', '$2y$10$zodXOy0gPuXy9cKkXDJ.6e2cuXJ8upbkBphjbFumUQ5wm8TCBrC1W', 'v@v', '2025-10-21 23:41:50', NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -400,12 +407,26 @@ ALTER TABLE `driver`
   ADD KEY `FK_Driver_Country` (`idCountry`);
 
 --
+-- Índices de tabela `driverrace`
+--
+ALTER TABLE `driverrace`
+  ADD PRIMARY KEY (`idDriver`,`idRace`),
+  ADD KEY `driverrace_ibfk_2` (`idRace`);
+
+--
 -- Índices de tabela `lap`
 --
 ALTER TABLE `lap`
   ADD PRIMARY KEY (`idLap`),
   ADD KEY `FK_Lap_Race` (`idRace`),
   ADD KEY `FK_Lap_Driver` (`idDriver`);
+
+--
+-- Índices de tabela `liked`
+--
+ALTER TABLE `liked`
+  ADD PRIMARY KEY (`idDriver`,`idUser`),
+  ADD KEY `idUser` (`idUser`);
 
 --
 -- Índices de tabela `race`
@@ -443,7 +464,7 @@ ALTER TABLE `country`
 -- AUTO_INCREMENT de tabela `driver`
 --
 ALTER TABLE `driver`
-  MODIFY `idDriver` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `idDriver` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT de tabela `lap`
@@ -467,7 +488,7 @@ ALTER TABLE `track`
 -- AUTO_INCREMENT de tabela `user`
 --
 ALTER TABLE `user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Restrições para tabelas despejadas
@@ -481,11 +502,25 @@ ALTER TABLE `driver`
   ADD CONSTRAINT `FK_Driver_User` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON DELETE CASCADE;
 
 --
+-- Restrições para tabelas `driverrace`
+--
+ALTER TABLE `driverrace`
+  ADD CONSTRAINT `driverrace_ibfk_1` FOREIGN KEY (`idDriver`) REFERENCES `driver` (`idDriver`) ON DELETE CASCADE,
+  ADD CONSTRAINT `driverrace_ibfk_2` FOREIGN KEY (`idRace`) REFERENCES `race` (`idRace`) ON DELETE CASCADE;
+
+--
 -- Restrições para tabelas `lap`
 --
 ALTER TABLE `lap`
   ADD CONSTRAINT `FK_Lap_Driver` FOREIGN KEY (`idDriver`) REFERENCES `driver` (`idDriver`) ON DELETE CASCADE,
   ADD CONSTRAINT `FK_Lap_Race` FOREIGN KEY (`idRace`) REFERENCES `race` (`idRace`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `liked`
+--
+ALTER TABLE `liked`
+  ADD CONSTRAINT `idDriver` FOREIGN KEY (`idDriver`) REFERENCES `driver` (`idDriver`) ON DELETE CASCADE,
+  ADD CONSTRAINT `idUser` FOREIGN KEY (`idUser`) REFERENCES `user` (`idUser`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `race`

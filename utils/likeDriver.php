@@ -21,8 +21,12 @@ if($actionParam != 1 && $actionParam != -1) {
 }
 
 $driver = Driver::findDriver($_GET["idDriver"]);
-$driver->likeDriver($actionParam);
+$result = $driver->likeDriver($actionParam);
 
-header("Location: ./../private.php?page=shareddrivers#{$_GET['idDriver']}");
+if($result) {
+    header("Location: ./../private.php?page=shareddrivers#{$_GET['idDriver']}");
+} else {
+    header("Location: ./../private.php?page=drivers");
+}
 
 ?>
