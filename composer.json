@@ -1,5 +1,5 @@
 {
-    "name": "arthur/projeto-prog-formula1",
+    "name": "formulax/projeto-prog-formula1",
     "autoload": {
         "psr-4": {
             "App\\": "src/"
@@ -7,8 +7,7 @@
     },
     "authors": [
         {
-            "name": "Arthur Lassem, Leonardo Hoffmann",
-            "email": "arthurlassem11@gmail.com"
+            "name": "Arthur Lassem, Leonardo Hoffmann"
         }
     ],
     "require": {}
